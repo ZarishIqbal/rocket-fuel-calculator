@@ -1,21 +1,46 @@
-# RFC
+# Rocket Fuel Calculator
 
-**TODO: Add description**
+This application helps in calculating the fuel required in a NASA mission.
 
-## Installation
+The application takes 2 inputs:
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `rfc` to your list of dependencies in `mix.exs`:
+> - initial_mass: `integer`
+> - list_of_routes: `[{directive,gravity}]`
 
-```elixir
-def deps do
-  [
-    {:rfc, "~> 0.1.0"}
-  ]
-end
+> The directive can either be `:launch` or `:land`
+
+Depending upon the directive the fuel needed is calculated using the formula
+
+#### `:launch`
+
+> `mass * gravity * 0.042 - 33 rounded down`
+
+#### `:land`
+
+> `mass * gravity * 0.033 - 42 rounded down`
+
+Fuel adds weight to the ship, so it requires additional fuel, until additional fuel is 0 or negative.
+
+The fuel needed for the entire mission is to be carried from the earth right from the start, which adds more mass to the flight. So, we need to calculate the fuel needed for each step by adding the weight of fuel of all subsequent steps.
+
+## Examples
+
+---
+
+**Mission Fuel**
+
+```shell
+iex> NASAFuelCalculator.calculate_routes_fuel(14606,[{:launch, 9.807},{:land, 3.711},{:launch, 3.711},{:land, 9.807}])
+
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/rfc>.
+> Output: 33388
 
+**Single Route Fuel**
+
+```shell
+iex> NASAFuelCalculator.calculate_fuel(28801, 9.807, :launch)
+
+```
+
+> Output: 19772
