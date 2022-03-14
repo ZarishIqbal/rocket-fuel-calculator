@@ -7,7 +7,7 @@ The application takes 2 inputs:
 > - initial_mass: `integer`
 > - list_of_routes: `[{directive,gravity}]`
 
-> The directive can either be `:launch` or `:land`
+The directive can either be `:launch` or `:land`
 
 Depending upon the directive the fuel needed is calculated using the formula
 
